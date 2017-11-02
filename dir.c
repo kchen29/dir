@@ -18,6 +18,7 @@ int main() {
   }
   closedir(d);
 
+  //go through again to print regular files
   d = opendir(".");
 
   printf("files:\n");
