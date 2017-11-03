@@ -10,18 +10,16 @@ int main() {
   printf("Directories:\n");
   struct dirent *entry = readdir(d);
   while (entry) {
-    //. and .. are type unknown on this school computer
-    if (entry->d_type == DT_DIR ||
-        entry->d_type == DT_UNKNOWN)
+    //. and .. are type unknown on the school computer
+    if (entry->d_type != DT_REG)
       printf("\t%s\n", entry->d_name);
     entry = readdir(d);
   }
   closedir(d);
 
-  //go through again to print regular files
   d = opendir(".");
-
-  printf("files:\n");
+  //go through again to print regular files
+  printf("Regular files:\n");
   long size = 0;
   entry = readdir(d);
   while (entry) { 
@@ -30,8 +28,7 @@ int main() {
       stat(entry->d_name, &sb);
       size += sb.st_size;
     }
-    if (entry->d_type != DT_DIR &&
-        entry->d_type != DT_UNKNOWN)
+    if (entry->d_type == DT_REG)
       printf("\t%s\n", entry->d_name);
     entry = readdir(d);
   }
